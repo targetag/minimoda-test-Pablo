@@ -15,6 +15,9 @@
 
 ![Qase failed run showing the inventory-limit issue](assets/stock-exceeded.png)
 
+Report QASE: Bug found
+https://app.qase.io/public/report/8fb05302a903294142a80b6d32855d4e357b47a1
+
 The screenshot shows the failed test execution and tester's observation. The image alone does not prove that an order was placed or charged.
 
 ## Reproduction steps
