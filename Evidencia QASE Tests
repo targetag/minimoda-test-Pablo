@@ -1,1 +1,58 @@
+# MiniModa — QA Test Execution & Bug Report
+
+**Project:** MiniModa | **Test management:** Qase | **Test case:** `TC-001` / `MINIMODA-1`  
+**Test:** Verify User Can Add a Product to the Shopping Cart  
+**QA student:** Pablo Villeda GUA | **Execution export:** `MINIMODA-Express+run+2026_10_28.csv`
+
+## Defect: Cart allows quantities exceeding available inventory
+
+**Status:** Failed | **Priority:** High | **Severity:** Critical (as recorded in Qase)  
+**Type:** Functional | **Automation:** To be automated
+
+**Observed behavior:** The product page permits adding more units to the cart than the available inventory. The Qase run notes that **“El Gorrito de Lana Osito Bebe 0-2”** has **25 units in stock**, but the user can attempt to add more than 25. This could mislead customers about availability and create an overselling or checkout risk. **An actual incorrect charge was not established by this run.**
+
+### Evidence from Qase
+
+![Qase failed run showing the inventory-limit issue](assets/stock-exceeded.png)
+
+The screenshot shows the failed test execution and tester's observation. The image alone does not prove that an order was placed or charged.
+
+## Reproduction steps
+
+1. Open the MiniModa homepage.
+2. Navigate to the product catalog.
+3. Select the in-stock product **El Gorrito de Lana Osito Bebe 0-2**.
+4. Note the available inventory displayed (reported as **25** units in the Qase comments).
+5. Use the quantity control to request **more than 25 units** and attempt to add them to the cart.
+6. Observe whether the interface blocks the quantity or accepts it.
+7. If possible, open the shopping cart and check the quantity, unit price and subtotal. **The exported failed runs did not complete these cart assertions.**
+
+**Expected:** The product quantity should not exceed available stock. The application should show a clear stock-limit message, prevent adding excess units, and validate inventory again at checkout.
+
+**Actual:** According to the tester's Qase comments, the product page permits a quantity greater than the displayed stock limit. The later run failed at **Click Add to Cart**. Cart totals, checkout and payment outcomes remain unverified.
+
+## Qase execution record
+
+| Execution (export order) | Finished (CSV timestamp) | Status | Step outcomes | Duration |
+|---|---|---|---|---|
+| 1 | 2026-10-28 04:09:19 | Failed | Steps 1–2 passed; step 3 failed; steps 4–8 untested | 726 s |
+| 2 | 2026-10-28 04:10:54 | Retest | No step outcomes recorded | 0 s |
+| 3 | 2026-10-28 04:12:29 | Failed | Steps 1–3 passed; step 4 failed; steps 5–8 untested | 24 s |
+
+The Qase case defines these eight steps: (1) navigate home; (2) open catalog; (3) select an in-stock product; (4) click Add to Cart; (5) open cart; (6) verify name and price; (7) verify quantity; (8) verify subtotal. The table above distinguishes planned steps from steps actually completed. Timestamps are reproduced as exported, without assuming a timezone.
+
+## Suggested fix and retest
+
+- Enforce the available-stock limit in the product quantity selector and cart updates; validate the same constraint server-side.
+- Show a clear error when requested quantity exceeds stock, and prevent checkout for unavailable quantities.
+- Retest quantities **24, 25, and 26** against an inventory of 25, then repeat after a stock change and across concurrent carts.
+- Verify that cart quantity and subtotal remain accurate, and that payment cannot proceed for unavailable inventory.
+
+## Repository contents
+
+- `README.md` — test execution narrative and defect report.
+- `assets/stock-exceeded.png` — screenshot of the Qase run.
+- `qase-run.csv` — original exported Qase execution data, including comments and step statuses.
+
+**Note:** This README documents manual Qase executions; no Playwright test script or automated run is claimed. To include this in `Simonethg/minimoda-test`, commit these files to that repository and keep the relative image path intact.
 
