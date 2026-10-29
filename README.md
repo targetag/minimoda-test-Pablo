@@ -1,3 +1,23 @@
+# MiniModa QA
+
+**Student: Pablo Villeda GUA**
+
+The Playwright Test + TypeScript framework is in **[qa-automation/](qa-automation/README.md)**. It includes Chromium and Google Chrome projects, Qase mapping documentation, failure screenshots, retry traces, and local HTML reports. Routine execution does not require Codex or MCP.
+
+```powershell
+cd qa-automation
+npm ci
+npx playwright install chromium
+npx playwright test
+npx playwright show-report
+```
+
+The verified baseline is 32 passed and 4 failed across 36 browser executions. The failures reproduce two demo application defects: empty-cart checkout and stock-limit enforcement. See [verification](qa-automation/docs/verification.md) and [defects](qa-automation/docs/defects.md). Qase API publication is optional and off by default.
+
+Existing classroom material and manual evidence are preserved below and in their original locations.
+
+---
+
 # minimoda-test
 
 Repo de práctica de testing para **MiniModa**, una tienda online ficticia de ropa para chicos.
