@@ -8,10 +8,10 @@
 
 Esta guía se elaboró a partir de la documentación y las evidencias ya versionadas en el repositorio:
 
-- [Casos TC-001, TC-002 y TC-003, transcritos del CSV de Qase](../README_MiniModa_QA_Pablo_villeda_GUA.md#anexo-a-casos-de-prueba-completos-fuente-qase-csv).
-- [Práctica de registro](../clase-01/practica.md) y [captura de la suite Qase](../clase-01/evidencias/qase-suite-casos.png).
-- [Especificación y trazabilidad de los 18 escenarios automatizados](../qa-automation/docs/qase-test-cases.md).
-- [Exploración de la aplicación](../qa-automation/docs/site-exploration.md), [datos automatizados](../qa-automation/utils/test-data.ts) y [verificación histórica](../qa-automation/docs/verification.md).
+- [Casos TC-001, TC-002 y TC-003, transcritos del CSV de Qase](../../README_MiniModa_QA_Pablo_villeda_GUA.md#anexo-a-casos-de-prueba-completos-fuente-qase-csv).
+- [Práctica de registro](../../clase-01/practica.md) y [captura de la suite Qase](../Evidencias/qase-suite-casos.png).
+- [Especificación y trazabilidad de los 18 escenarios automatizados](../../qa-automation/docs/qase-test-cases.md).
+- [Exploración de la aplicación](../../qa-automation/docs/site-exploration.md), [datos automatizados](../../qa-automation/utils/test-data.ts) y [verificación histórica](../../qa-automation/docs/verification.md).
 
 Los pasos de los tres casos TC conservan el orden del anexo de Qase. Los datos concretos de automatización se identifican aparte porque el anexo original no fija todos esos valores. Las referencias MM-4, MM-5 y MM-6 proceden de los nombres de las capturas de registro; no se supone que MM y MINIMODA sean el mismo proyecto. El ID numérico de TC-002 debe verificarse en Qase.
 
@@ -155,7 +155,7 @@ Las siguientes instrucciones desarrollan los escenarios descritos en la práctic
 
 **Postcondición:** cuenta demo creada en el contexto de prueba. El texto exacto de éxito quedó “A VERIFICAR” en la práctica original.
 
-[Evidencia existente MM-4](../clase-01/evidencias/qase-MM-4-registro-alta-exitosa.png).
+[Evidencia existente MM-4](../Evidencias/qase-MM-4-registro-alta-exitosa.png).
 
 ### MM-5 — Rechazar contraseña de 7 caracteres
 
@@ -170,7 +170,7 @@ Las siguientes instrucciones desarrollan los escenarios descritos en la práctic
 
 **Postcondición:** cuenta no creada. La variante automatizada usa QaDemo1, también de 7 caracteres.
 
-[Evidencia existente MM-5](../clase-01/evidencias/qase-MM-5-registro-password-7.png).
+[Evidencia existente MM-5](../Evidencias/qase-MM-5-registro-password-7.png).
 
 ### MM-6 — Rechazar edad 12
 
@@ -185,7 +185,7 @@ Las siguientes instrucciones desarrollan los escenarios descritos en la práctic
 
 **Postcondición:** cuenta no creada.
 
-[Evidencia existente MM-6](../clase-01/evidencias/qase-MM-6-registro-edad-12.png).
+[Evidencia existente MM-6](../Evidencias/qase-MM-6-registro-edad-12.png).
 
 ## Cobertura complementaria automatizada
 
@@ -201,7 +201,7 @@ Estas referencias son locales de Playwright; no son nuevos IDs asignados por Qas
 | REGISTER-TERMS | Completar datos válidos y dejar términos sin marcar; enviar. | Casilla inválida y registro bloqueado. |
 | LOGIN-REQUIRED | Abrir /registro; enviar el formulario de inicio de sesión sin email ni contraseña. | Mensajes de campos obligatorios; no implica validación de autenticación real. |
 
-La práctica también propuso email de registro inválido ana@, contraseña de 9 caracteres, edades 14, 119 y 13.5 y envío de todo el registro vacío. No se incluyen como ejecuciones confirmadas de los 18 escenarios automatizados. Sus pasos y criterios originales están en [clase-01/practica.md](../clase-01/practica.md).
+La práctica también propuso email de registro inválido ana@, contraseña de 9 caracteres, edades 14, 119 y 13.5 y envío de todo el registro vacío. No se incluyen como ejecuciones confirmadas de los 18 escenarios automatizados. Sus pasos y criterios originales están en [clase-01/practica.md](../../clase-01/practica.md).
 
 ## Resultados históricos y registro en Qase
 
@@ -212,7 +212,7 @@ La corrida local documentada del **28 de octubre de 2026**, en Chromium y Google
 | CHECKOUT-EMPTY | Bloquear la compra sin productos. | Se permitió la confirmación de compra vacía. |
 | CART-STOCK | Impedir superar el stock visible. | Se aceptaron 26 unidades con stock de 25. |
 
-Ver [defectos documentados](../qa-automation/docs/defects.md) y [detalle de verificación](../qa-automation/docs/verification.md). Estos resultados de Playwright no se publicaron automáticamente en Qase según la documentación existente.
+Ver [defectos documentados](../../qa-automation/docs/defects.md) y [detalle de verificación](../../qa-automation/docs/verification.md). Estos resultados de Playwright no se publicaron automáticamente en Qase según la documentación existente.
 
 Para registrar una repetición manual:
 
@@ -235,4 +235,8 @@ npx playwright test
 npx playwright show-report
 ```
 
-El proyecto chrome requiere Google Chrome instalado. El reporte HTML, las capturas de fallos y las trazas de reintento se generan localmente según la configuración de la suite. Consultar [qa-automation/README.md](../qa-automation/README.md) para configuración y publicación opcional en Qase.
+El proyecto chrome requiere Google Chrome instalado. El reporte HTML, las capturas de fallos y las trazas de reintento se generan localmente según la configuración de la suite. Consultar [qa-automation/README.md](../../qa-automation/README.md) para configuración y publicación opcional en Qase.
+
+## Evidencias de esta entrega
+
+Consultar el [índice de evidencias](../Evidencias/README.md) para las capturas de Qase, reportes históricos de bugs y descubrimientos documentados.
