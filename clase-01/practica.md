@@ -161,7 +161,26 @@ Captura de la suite en Qase con tus casos: `evidencias/qase-suite-casos.png`
 
 ## 7. Mapa del harness
 
+```mermaid
+flowchart TD
+    U["Pablo Villeda GUA · QA"] --> Q["Qase: casos y resultados"]
+    Q --> A["Agente QA"]
+    M["Modelo: Claude Sonnet"] --> A
+    H["App y harness: Claude Code en VS Code"] --> A
+    R["Reglas y skills: CLAUDE.md"] --> A
+    A --> MCP["Playwright MCP: interacción con navegador"]
+    MCP --> WEB["MiniModa"]
+    A --> T["Playwright + TypeScript: tests automatizados"]
+    T --> WEB
+    T --> E["Evidencias: screenshots, trazas y reportes"]
+    T --> G["GitHub: código y documentación"]
+    G --> CI["GitHub Actions: ejecución en CI"]
+    E --> Q
+```
 
+El harness es el entorno que conecta el modelo con las instrucciones, archivos, herramientas y ejecución de comandos. En este diseño, Claude Code cumple ese papel; Playwright MCP conecta al agente con el navegador y Playwright Test ejecuta las pruebas automatizadas.
+
+> Este mapa corresponde a la arquitectura propuesta para MiniModa. No quedó verificada su ejecución completa con Claude Code. Posteriormente se configuró Codex + Playwright MCP; la prueba automatizada seguía pendiente.
 
 | Pieza | En lo que usé |
 |-------|---------------|
