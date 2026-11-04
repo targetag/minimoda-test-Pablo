@@ -14,7 +14,15 @@
 ## 3. Preguntas a Gemini
 | # | Pregunta | Respuesta (resumen) | ¿Acierto o error/invento? |
 |---|----------|---------------------|---------------------------|
-| 1 | ¿Qué campos pide el formulario de registro de https://minimoda-navy.vercel.app/registro? | ___tu respuesta aquí___ | ___tu respuesta aquí___ |
+| 1 | ¿Qué campos pide el formulario de registro de https://minimoda-navy.vercel.app/registro? | El formulario de registro de MiniModa pide:
+- Nombre
+- Email
+- Contraseña: mínimo 8 caracteres.
+- Confirmar contraseña
+- Edad: número entero entre 13 y 120.
+- País: Argentina, Chile, Uruguay, Paraguay, Bolivia, Perú, Colombia, México o España.
+- Aceptar los términos y condiciones mediante una casilla.
+Al final aparece el botón «Crear cuenta»._ | ___tu respuesta aquí___ |
 | 2 | ¿Cuál es el largo mínimo de la contraseña y qué edad se permite? | ___tu respuesta aquí___ | ___tu respuesta aquí___ |
 | 3 | ¿Qué pasa si no acepto los términos? | ___tu respuesta aquí___ | ___tu respuesta aquí___ |
 
