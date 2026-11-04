@@ -161,34 +161,35 @@ Captura de la suite en Qase con tus casos: `evidencias/qase-suite-casos.png`
 
 ## 7. Mapa del harness
 
+Mapa del entorno usado para preparar y ejecutar las pruebas de regresión de MiniModa.
+
 ```mermaid
 flowchart TD
-    U["Pablo Villeda GUA · QA"] --> Q["Qase: casos y resultados"]
-    Q --> A["Agente QA"]
-    M["Modelo: Claude Sonnet"] --> A
-    H["App y harness: Claude Code en VS Code"] --> A
-    R["Reglas y skills: CLAUDE.md"] --> A
-    A --> MCP["Playwright MCP: interacción con navegador"]
-    MCP --> WEB["MiniModa"]
-    A --> T["Playwright + TypeScript: tests automatizados"]
-    T --> WEB
-    T --> E["Evidencias: screenshots, trazas y reportes"]
-    T --> G["GitHub: código y documentación"]
-    G --> CI["GitHub Actions: ejecución en CI"]
-    E --> Q
+    QA["Pablo Villeda GUA · QA"] --> APP["APP: Codex Desktop"]
+    MODEL["MODELO: modelo de OpenAI usado en Codex<br/>Versión exacta no registrada"] --> HARNESS
+    APP --> HARNESS["HARNESS: entorno de agente de Codex<br/>Coordina instrucciones, archivos, terminal y herramientas"]
+    SKILL["SKILL / REGLAS: instrucciones de QA<br/>Validar resultados reales, usar datos ficticios<br/>y conservar evidencias"] --> HARNESS
+    HARNESS --> MCP["MCP: Playwright MCP<br/>Exploración e interacción con MiniModa"]
+    MCP --> SITE["MiniModa"]
+    HARNESS --> RUNNER["Playwright Test + TypeScript<br/>Suite de regresión en qa-automation/"]
+    RUNNER --> BROWSERS["Chromium y Google Chrome"]
+    BROWSERS --> SITE
+    RUNNER --> REPORT["Reporte HTML, screenshots y trazas"]
+    REPORT --> RESULTS["36 ejecuciones<br/>32 aprobadas · 4 fallidas"]
+    HARNESS --> GIT["GitHub: código y documentación"]
 ```
-
-El harness es el entorno que conecta el modelo con las instrucciones, archivos, herramientas y ejecución de comandos. En este diseño, Claude Code cumple ese papel; Playwright MCP conecta al agente con el navegador y Playwright Test ejecuta las pruebas automatizadas.
-
-> Este mapa corresponde a la arquitectura propuesta para MiniModa. No quedó verificada su ejecución completa con Claude Code. Posteriormente se configuró Codex + Playwright MCP; la prueba automatizada seguía pendiente.
 
 | Pieza | En lo que usé |
 |-------|---------------|
-| Modelo | ___tu respuesta aquí___ |
-| App | ___tu respuesta aquí___ |
-| Harness | ___tu respuesta aquí___ |
-| MCP | ___tu respuesta aquí___ |
-| Skill | ___tu respuesta aquí___ |
+| Modelo | Modelo de OpenAI en Codex; la versión exacta no quedó registrada. |
+| App | Codex Desktop. |
+| Harness | El entorno de agente de Codex, que coordinó instrucciones, herramientas, terminal y archivos. |
+| MCP | Playwright MCP, probado contra MiniModa para explorar e interactuar con el navegador. |
+| Skill | Instrucciones y reglas de QA: validar resultados reales, usar datos ficticios y conservar evidencias. No quedó acreditada una skill específica de regresión instalada. |
+
+El ejecutor de la suite fue **Playwright Test + TypeScript**: 18 escenarios en Chromium y Google Chrome, con **32 ejecuciones aprobadas y 4 fallidas**. Las fallas reprodujeron dos defectos en ambos navegadores: compra con carrito vacío y aceptación de 26 unidades con stock de 25.
+
+La suite puede volver a ejecutarse con Playwright sin una sesión de Codex ni MCP. El código y la documentación están en [qa-automation/](../qa-automation/README.md).
 
 ## 8. Entrega
 - Link de tu repo (pegalo también en el Telegram): ___tu respuesta aquí___
