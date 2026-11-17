@@ -61,3 +61,9 @@ Acá no está el código de la tienda, solo lo que producís vos como tester.
 - **GitHub:** `clase-01/practica.md` en tu fork.
 - **Qase:** proyecto MiniModa.
 - **Telegram:** el link de tu repo.
+
+## Entregas de clase
+
+- [Clase 03](Clase-03/)
+- [Clase 04](Clase-04/)
+- [Clase 05 · MiniModa exploratorio](Clase%2005/README.md)
