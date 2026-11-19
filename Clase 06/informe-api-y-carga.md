@@ -62,4 +62,14 @@ Verificación previa: Postman CLI observó HTTP 200 y `productos` como lista par
 
 ### Resultados de carga
 
-Pendientes de la ejecución con k6.
+Ejecutadas con k6 v2.4.0 en Windows, contra MiniModa API 1.0.0 en modo `con-defectos` y en la misma máquina.
+
+| Corrida | Solicitudes | p90 | p95 | Errores HTTP | Solicitudes por segundo | Umbrales |
+|---|---:|---:|---:|---:|---:|---|
+| [1 VU](k6/resultados/resumen-1-vu.txt) | 34 | 52.85 ms | 54.00 ms | 0 % | 0.745081 | Ambos cumplidos |
+| [5 VU (línea base)](k6/resultados/resumen-5-vu.txt) | 180 | 52.30 ms | 54.99 ms | 0 % | 3.915957 | Ambos cumplidos |
+| [20 VU](k6/resultados/resumen-20-vu.txt) | 570 | 405.75 ms | 412.13 ms | 0 % | 12.514781 | Falló p95 |
+
+Las comprobaciones de HTTP 200 y de `productos` como lista pasaron en las tres corridas. k6 salió con código 0 para 1 y 5 VU, y con código 99 para 20 VU por el umbral de latencia.
+
+[Reporte HTML de 20 VU](k6/resultados/reporte-20-vu.html).

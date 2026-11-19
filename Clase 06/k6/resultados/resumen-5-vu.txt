@@ -1,0 +1,39 @@
+
+
+  █ THRESHOLDS 
+
+    http_req_duration
+    ✓ 'p(95)<300' p(95)=54.99ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 360     7.831914/s
+    checks_succeeded...: 100.00% 360 out of 360
+    checks_failed......: 0.00%   0 out of 360
+
+    ✓ HTTP 200
+    ✓ productos es una lista
+
+    HTTP
+    http_req_duration..............: avg=44.76ms min=28.09ms med=47.92ms max=64.97ms p(90)=52.3ms p(95)=54.99ms
+      { expected_response:true }...: avg=44.76ms min=28.09ms med=47.92ms max=64.97ms p(90)=52.3ms p(95)=54.99ms
+    http_req_failed................: 0.00%  0 out of 180
+    http_reqs......................: 180    3.915957/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.04s   min=1.02s   med=1.04s   max=1.06s   p(90)=1.05s  p(95)=1.05s  
+    iterations.....................: 180    3.915957/s
+    vus............................: 1      min=0        max=5
+    vus_max........................: 5      min=5        max=5
+
+    NETWORK
+    data_received..................: 114 kB 2.5 kB/s
+    data_sent......................: 17 kB  372 B/s
+
+
+
+Código de salida: 0
