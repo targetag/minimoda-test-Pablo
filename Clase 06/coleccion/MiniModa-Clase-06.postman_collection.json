@@ -1,0 +1,425 @@
+{
+  "info": {
+    "name": "MiniModa · Clase 06",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const baseUrl = pm.variables.get(\"baseUrl\");",
+          "if (baseUrl !== \"http://localhost:4000\") {",
+          "  pm.execution.skipRequest();",
+          "  throw new Error(\"Seleccioná el entorno local con baseUrl http://localhost:4000\");",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "API-01 · Producto inexistente",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/productos/999",
+        "description": "Contrato OpenAPI · paths./productos/{id}.get.responses.404 · components.schemas.Error"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./productos/{id}.get.responses.404 · components.schemas.Error",
+              "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+              "pm.test(\"Error cumple el esquema OpenAPI\", function () { const body = pm.response.json(); pm.expect(body.codigo).to.be.a(\"string\"); pm.expect(body.mensaje).to.be.a(\"string\"); pm.expect(body.detalles).to.be.an(\"array\"); body.detalles.forEach(value => pm.expect(value).to.be.a(\"string\")); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-02 · Preparar carrito",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/carritos",
+        "description": "Contrato OpenAPI · paths./carritos.post.responses.201"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.unset(\"carritoId\");"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./carritos.post.responses.201",
+              "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+              "pm.test(\"Carrito nuevo con ID válido\", function () { const body = pm.response.json(); pm.expect(body.id).to.be.a(\"string\").and.not.empty; pm.expect(body.items).to.be.an(\"array\").that.is.empty; if (pm.response.code === 201) pm.collectionVariables.set(\"carritoId\", body.id); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-02 · Cantidad cero",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/carritos/{{carritoId}}/items",
+        "description": "Contrato OpenAPI · paths./carritos/{carritoId}/items.post.responses.400 · components.schemas.NuevoItem · components.schemas.Error",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productoId\": 3,\n  \"cantidad\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./carritos/{carritoId}/items.post.responses.400 · components.schemas.NuevoItem · components.schemas.Error",
+              "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+              "pm.test(\"Error cumple el esquema OpenAPI\", function () { const body = pm.response.json(); pm.expect(body.codigo).to.be.a(\"string\"); pm.expect(body.mensaje).to.be.a(\"string\"); pm.expect(body.detalles).to.be.an(\"array\"); body.detalles.forEach(value => pm.expect(value).to.be.a(\"string\")); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-03 · Precio máximo cero",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/productos?max=0",
+        "description": "Contrato OpenAPI · paths./productos.get.parameters (max) · paths./productos.get.responses.200 · components.schemas.ListaProductos · components.schemas.Producto"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./productos.get.parameters (max) · paths./productos.get.responses.200 · components.schemas.ListaProductos · components.schemas.Producto",
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"ListaProductos respeta el máximo inclusivo\", function () { const body = pm.response.json(); [\"pagina\", \"limite\", \"total\"].forEach(key => pm.expect(Number.isInteger(body[key]), key).to.equal(true)); pm.expect(body.productos).to.be.an(\"array\"); body.productos.forEach(producto => pm.expect(producto.precio).to.equal(0)); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-04 · Preparar carrito",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/carritos",
+        "description": "Contrato OpenAPI · paths./carritos.post.responses.201"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.unset(\"carritoId\");"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./carritos.post.responses.201",
+              "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+              "pm.test(\"Carrito nuevo con ID válido\", function () { const body = pm.response.json(); pm.expect(body.id).to.be.a(\"string\").and.not.empty; pm.expect(body.items).to.be.an(\"array\").that.is.empty; if (pm.response.code === 201) pm.collectionVariables.set(\"carritoId\", body.id); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-04 · Agregar ítem",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/carritos/{{carritoId}}/items",
+        "description": "Contrato OpenAPI · paths./carritos/{carritoId}/items.post.responses.201",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productoId\": 3,\n  \"cantidad\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./carritos/{carritoId}/items.post.responses.201",
+              "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+              "pm.test(\"Carrito conserva el ID y contiene el producto\", function () { const body = pm.response.json(); pm.expect(body.id).to.equal(pm.collectionVariables.get(\"carritoId\")); pm.expect(body.items).to.be.an(\"array\"); pm.expect(body.items.find(item => item.productoId === 3)).to.have.property(\"cantidad\", 1); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-04 · Leer carrito",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/carritos/{{carritoId}}",
+        "description": "Contrato OpenAPI · paths./carritos/{carritoId}.get.responses.200 · components.schemas.Carrito · components.schemas.ItemCarrito"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./carritos/{carritoId}.get.responses.200 · components.schemas.Carrito · components.schemas.ItemCarrito",
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"La lectura devuelve el carrito y su ítem con precio numérico\", function () { const body = pm.response.json(); pm.expect(body.id).to.equal(pm.collectionVariables.get(\"carritoId\")); pm.expect(body.estado).to.be.oneOf([\"abierto\", \"cerrado\"]); pm.expect(body.subtotal).to.be.a(\"number\"); pm.expect(body.items).to.be.an(\"array\"); const item = body.items.find(value => value.productoId === 3); pm.expect(item).to.have.property(\"cantidad\", 1); pm.expect(item.nombre).to.be.a(\"string\"); pm.expect(item.precioUnitario).to.be.a(\"number\"); pm.expect(item.subtotal).to.be.a(\"number\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-05 · Preparar carrito",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/carritos",
+        "description": "Contrato OpenAPI · paths./carritos.post.responses.201"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.unset(\"carritoId\");"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./carritos.post.responses.201",
+              "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+              "pm.test(\"Carrito nuevo con ID válido\", function () { const body = pm.response.json(); pm.expect(body.id).to.be.a(\"string\").and.not.empty; pm.expect(body.items).to.be.an(\"array\").that.is.empty; if (pm.response.code === 201) pm.collectionVariables.set(\"carritoId\", body.id); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-05 · Agregar ítem",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/carritos/{{carritoId}}/items",
+        "description": "Contrato OpenAPI · paths./carritos/{carritoId}/items.post.responses.201",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productoId\": 3,\n  \"cantidad\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./carritos/{carritoId}/items.post.responses.201",
+              "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+              "pm.test(\"Carrito conserva el ID y contiene el producto\", function () { const body = pm.response.json(); pm.expect(body.id).to.equal(pm.collectionVariables.get(\"carritoId\")); pm.expect(body.items).to.be.an(\"array\"); pm.expect(body.items.find(item => item.productoId === 3)).to.have.property(\"cantidad\", 1); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-05 · Crear pedido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotencyKey}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/pedidos",
+        "description": "Contrato OpenAPI · paths./pedidos.post.responses.201 · components.schemas.Pedido",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"carritoId\": \"{{carritoId}}\",\n  \"email\": \"ana@ejemplo.com\",\n  \"tarjeta\": \"4111111111111111\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.unset(\"pedidoId\");",
+              "pm.collectionVariables.set(\"idempotencyKey\", pm.variables.replaceIn(\"clase6-{{$guid}}\"));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./pedidos.post.responses.201 · components.schemas.Pedido",
+              "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+              "pm.test(\"Pedido confirmado para el carrito\", function () { const body = pm.response.json(); pm.expect(body.id).to.be.a(\"string\").and.not.empty; pm.expect(body.carritoId).to.equal(pm.collectionVariables.get(\"carritoId\")); pm.expect(body.estado).to.equal(\"confirmado\"); if (pm.response.code === 201) pm.collectionVariables.set(\"pedidoId\", body.id); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-05 · Repetir pedido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotencyKey}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/pedidos",
+        "description": "Contrato OpenAPI · paths./pedidos.post.description · paths./pedidos.post.responses.201.headers.Idempotent-Replayed",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"carritoId\": \"{{carritoId}}\",\n  \"email\": \"ana@ejemplo.com\",\n  \"tarjeta\": \"4111111111111111\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./pedidos.post.description · paths./pedidos.post.responses.201.headers.Idempotent-Replayed",
+              "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+              "pm.test(\"La repetición devuelve el ID original\", function () { const id = pm.collectionVariables.get(\"pedidoId\"); pm.expect(id).to.be.a(\"string\").and.not.empty; pm.expect(pm.response.json().id).to.equal(id); });",
+              "pm.test(\"La respuesta indica que el pedido fue repetido\", function () { pm.expect(pm.response.headers.get(\"Idempotent-Replayed\")).to.equal(\"true\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-06 · Formato de error",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/productos?pagina=0",
+        "description": "Contrato OpenAPI · paths./productos.get.parameters (pagina) · paths./productos.get.responses.400 · components.schemas.Error"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./productos.get.parameters (pagina) · paths./productos.get.responses.400 · components.schemas.Error",
+              "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+              "pm.test(\"Error cumple el esquema OpenAPI\", function () { const body = pm.response.json(); pm.expect(body.codigo).to.be.a(\"string\"); pm.expect(body.mensaje).to.be.a(\"string\"); pm.expect(body.detalles).to.be.an(\"array\"); body.detalles.forEach(value => pm.expect(value).to.be.a(\"string\")); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Búsqueda · remera",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/productos/buscar?q=remera",
+        "description": "Contrato OpenAPI · paths./productos/buscar.get.responses.200 · components.schemas.ResultadoBusqueda.properties.productos"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// paths./productos/buscar.get.responses.200 · components.schemas.ResultadoBusqueda.properties.productos",
+              "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"productos es una lista\", function () { pm.expect(pm.response.json().productos).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

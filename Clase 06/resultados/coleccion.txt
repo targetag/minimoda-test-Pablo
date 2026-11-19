@@ -1,0 +1,141 @@
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Warning: Could not create log directory at C:\Users\dilig\.postman\logs: EPERM: operation not permitted, mkdir 'C:\Users\dilig\.postman'
+Running your collection...
+postman
+
+MiniModa · Clase 06
+
+Root API-01 · Producto inexistente
+
+  GET http://localhost:4000/productos/999 [200 OK, 349 B, 23 ms]
+  1. HTTP 404
+  2. Error cumple el esquema OpenAPI
+
+Root API-02 · Preparar carrito
+
+  POST http://localhost:4000/carritos [201 Created, 392 B, 4 ms]
+  Pass  HTTP 201
+  Pass  Carrito nuevo con ID válido
+
+Root API-02 · Cantidad cero
+
+  POST http://localhost:4000/carritos/c-1/items [201 Created, 491 B, 6 ms]
+  3. HTTP 400
+  4. Error cumple el esquema OpenAPI
+
+Root API-03 · Precio máximo cero
+
+  GET http://localhost:4000/productos?max=0 [200 OK, 381 B, 2 ms]
+  Pass  HTTP 200
+  Pass  ListaProductos respeta el máximo inclusivo
+
+Root API-04 · Preparar carrito
+
+  POST http://localhost:4000/carritos [201 Created, 392 B, 2 ms]
+  Pass  HTTP 201
+  Pass  Carrito nuevo con ID válido
+
+Root API-04 · Agregar ítem
+
+  POST http://localhost:4000/carritos/c-2/items [201 Created, 497 B, 4 ms]
+  Pass  HTTP 201
+  Pass  Carrito conserva el ID y contiene el producto
+
+Root API-04 · Leer carrito
+
+  GET http://localhost:4000/carritos/c-2 [200 OK, 492 B, 3 ms]
+  Pass  HTTP 200
+  5. La lectura devuelve el carrito y su ítem con precio numérico
+
+Root API-05 · Preparar carrito
+
+  POST http://localhost:4000/carritos [201 Created, 392 B, 4 ms]
+  Pass  HTTP 201
+  Pass  Carrito nuevo con ID válido
+
+Root API-05 · Agregar ítem
+
+  POST http://localhost:4000/carritos/c-3/items [201 Created, 497 B, 4 ms]
+  Pass  HTTP 201
+  Pass  Carrito conserva el ID y contiene el producto
+
+Root API-05 · Crear pedido
+
+  POST http://localhost:4000/pedidos [201 Created, 505 B, 15 ms]
+  Pass  HTTP 201
+  Pass  Pedido confirmado para el carrito
+
+Root API-05 · Repetir pedido
+
+  POST http://localhost:4000/pedidos [201 Created, 532 B, 3 ms]
+  Pass  HTTP 201
+  Pass  La repetición devuelve el ID original
+  Pass  La respuesta indica que el pedido fue repetido
+
+Root API-06 · Formato de error
+
+  GET http://localhost:4000/productos?pagina=0 [400 Bad Request, 448 B, 3 ms]
+  Pass  HTTP 400
+  Pass  Error cumple el esquema OpenAPI
+
+Root Búsqueda · remera
+
+  GET http://localhost:4000/productos/buscar?q=remera [200 OK, 621 B, 32 ms]
+  Pass  HTTP 200
+  Pass  productos es una lista
+
+-------------------------------------------------------------------
+|                         |          executed |            failed |
+--------------------------+-------------------+--------------------
+|              iterations |                 1 |                 0 |
+--------------------------+-------------------+--------------------
+|                requests |                13 |                 0 |
+--------------------------+-------------------+--------------------
+|            test-scripts |                13 |                 0 |
+--------------------------+-------------------+--------------------
+|      prerequest-scripts |                17 |                 0 |
+--------------------------+-------------------+--------------------
+|              assertions |                27 |                 5 |
+-------------------------------------------------------------------
+| total run duration: 1330 ms                                     |
+-------------------------------------------------------------------
+| total data received: 1.56 KB (approx)                           |
+-------------------------------------------------------------------
+| average response time: 8 ms [min: 2 ms, max: 32 ms, s.d.: 9 ms] |
+-------------------------------------------------------------------
+
+  #  failure         detail                                                       
+                                                                                  
+ 1.  AssertionError  HTTP 404                                                     
+                     expected response to have status code 404 but got 200        
+                     at assertion:0 in test-script                                
+                     inside "API-01 · Producto inexistente"                       
+                                                                                  
+ 2.  AssertionError  Error cumple el esquema OpenAPI                              
+                     expected undefined to be a string                            
+                     at assertion:1 in test-script                                
+                     inside "API-01 · Producto inexistente"                       
+                                                                                  
+ 3.  AssertionError  HTTP 400                                                     
+                     expected response to have status code 400 but got 201        
+                     at assertion:0 in test-script                                
+                     inside "API-02 · Cantidad cero"                              
+                                                                                  
+ 4.  AssertionError  Error cumple el esquema OpenAPI                              
+                     expected undefined to be a string                            
+                     at assertion:1 in test-script                                
+                     inside "API-02 · Cantidad cero"                              
+                                                                                  
+ 5.  AssertionError  La lectura devuelve el carrito y su ítem con precio numérico 
+                     expected '5600' to be a number                               
+                     at assertion:1 in test-script                                
+                     inside "API-04 · Leer carrito"                               
