@@ -35,12 +35,8 @@ Salida de la corrida: [resultados/coleccion.txt](resultados/coleccion.txt).
 
 ## 3. Issues
 
-Reportes del paso 5 (etiqueta propuesta `api`):
-
-- [API-01 · Producto inexistente](issues/API-01-producto-inexistente.md)
-- [API-02 · Cantidad cero](issues/API-02-cantidad-cero.md)
-
-La publicación como issues de GitHub está pendiente porque la sección Issues está desactivada en el repositorio.
+- [#1 · GET /productos/{id} devuelve 200 para un producto inexistente](https://github.com/targetag/minimoda-test-Pablo/issues/1) · etiqueta `api` · [reporte local](issues/API-01-producto-inexistente.md)
+- [#2 · POST /carritos/{carritoId}/items acepta cantidad 0](https://github.com/targetag/minimoda-test-Pablo/issues/2) · etiqueta `api` · [reporte local](issues/API-02-cantidad-cero.md)
 
 ## 4. Preguntas para el equipo
 
