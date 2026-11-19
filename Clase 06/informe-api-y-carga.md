@@ -44,4 +44,22 @@ Salida de la corrida: [resultados/coleccion.txt](resultados/coleccion.txt).
 
 ## 5. Carga y conclusión
 
-Pendiente.
+### Perfil de carga
+
+| Campo | Valor |
+|---|---|
+| Endpoint | `GET /productos/buscar?q=remera` |
+| Entorno | k6 y MiniModa API en la misma máquina, `http://localhost:4000`, modo `con-defectos` |
+| Usuarios virtuales | Tres corridas separadas con 1, 5 y 20 VU. La corrida de 5 VU es la línea base. |
+| Rampa de subida | De 0 a N usuarios en 10 s |
+| Carga sostenida | N usuarios durante 30 s |
+| Rampa de bajada | De N a 0 usuarios en 5 s |
+| Acción por iteración | Una búsqueda y luego una pausa de 1 s |
+| Comprobaciones | HTTP 200 y `productos` como lista |
+| Umbrales | `http_req_duration: p(95)<300` ms y `http_req_failed: rate<0.01` |
+
+Verificación previa: Postman CLI observó HTTP 200 y `productos` como lista para `q=remera` en localhost. [Evidencia de la colección](resultados/coleccion.txt).
+
+### Resultados de carga
+
+Pendientes de la ejecución con k6.
