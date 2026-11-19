@@ -38,6 +38,8 @@ Salida de la corrida: [resultados/coleccion.txt](resultados/coleccion.txt).
 - [#1 · GET /productos/{id} devuelve 200 para un producto inexistente](https://github.com/targetag/minimoda-test-Pablo/issues/1) · etiqueta `api` · [reporte local](issues/API-01-producto-inexistente.md)
 - [#2 · POST /carritos/{carritoId}/items acepta cantidad 0](https://github.com/targetag/minimoda-test-Pablo/issues/2) · etiqueta `api` · [reporte local](issues/API-02-cantidad-cero.md)
 
+- [#3 · La búsqueda supera el umbral de p95 con 20 usuarios virtuales](https://github.com/targetag/minimoda-test-Pablo/issues/3) · etiqueta `performance`
+
 ## 4. Preguntas para el equipo
 
 - ¿Los valores de `codigo` y el texto literal de `mensaje` deben ser estables para cada error? El esquema define sus tipos y muestra un ejemplo de `codigo`.
@@ -73,3 +75,16 @@ Ejecutadas con k6 v2.4.0 en Windows, contra MiniModa API 1.0.0 en modo `con-defe
 Las comprobaciones de HTTP 200 y de `productos` como lista pasaron en las tres corridas. k6 salió con código 0 para 1 y 5 VU, y con código 99 para 20 VU por el umbral de latencia.
 
 [Reporte HTML de 20 VU](k6/resultados/reporte-20-vu.html).
+
+### Conclusión
+
+Con 5 VU, el p95 fue de 54.99 ms. Con 20 VU subió a 412.13 ms, aproximadamente 7.5 veces la línea base y 112.13 ms por encima del umbral de 300 ms. La tasa de errores HTTP fue 0 % en las tres corridas. A 20 VU se procesaron 570 solicitudes a 12.514781 solicitudes por segundo y pasaron las 1,140 comprobaciones funcionales. En esta medición, la búsqueda siguió devolviendo HTTP 200 y una lista de productos, pero incumplió el objetivo de latencia a la carga esperada.
+
+**Límites.** k6 y la API compartieron la misma máquina. Cada nivel se midió una sola vez durante una ventana programada de 45 s, en modo `con-defectos` y con la misma consulta. Los resultados comparan esas tres corridas locales. La prueba no establece capacidad de producción ni la causa del aumento de latencia.
+
+**Hipótesis para comprobar.**
+
+- Si el generador de carga y la API compitieron por CPU, repetir el perfil con recursos aislados para ambos y registrar CPU y p95 permitiría evaluar cuánto cambia la latencia.
+- Si el aumento aparece a partir de un nivel intermedio de concurrencia, repetir varias corridas con 5, 10, 15 y 20 VU bajo las mismas condiciones permitiría localizar y comprobar ese cambio.
+
+El incumplimiento del umbral quedó registrado en el [issue #3](https://github.com/targetag/minimoda-test-Pablo/issues/3) con la etiqueta `performance`.
