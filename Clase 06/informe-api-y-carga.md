@@ -35,7 +35,12 @@ Salida de la corrida: [resultados/coleccion.txt](resultados/coleccion.txt).
 
 ## 3. Issues
 
-Pendientes de documentar como issues en el paso 5. La corrida detectó discrepancias en API-01, API-02 y API-04.
+Reportes del paso 5 (etiqueta propuesta `api`):
+
+- [API-01 · Producto inexistente](issues/API-01-producto-inexistente.md)
+- [API-02 · Cantidad cero](issues/API-02-cantidad-cero.md)
+
+La publicación como issues de GitHub está pendiente porque la sección Issues está desactivada en el repositorio.
 
 ## 4. Preguntas para el equipo
 
